@@ -94,7 +94,7 @@ footer {
 }
 
 main {
-  .button {
+  .button, .portal-button {
     display: inline-block;
     border-radius: 6px;
     padding: 6px 20px;
@@ -891,6 +891,11 @@ section#cncf {
     margin-top: 1rem;
     font-size: 1rem;
   }
+}
+
+footer.row {
+  margin-left: initial;
+  margin-right: initial;
 }
 
 /* DOCUMENTATION */
