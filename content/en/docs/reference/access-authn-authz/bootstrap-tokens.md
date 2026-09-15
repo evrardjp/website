@@ -116,7 +116,7 @@ authenticate to the API server as a bearer token.
 
 The `expiration` field controls the expiry of the token. Expired tokens are
 rejected when used for authentication and ignored during ConfigMap signing.
-The expiry value is encoded as an absolute UTC time using RFC3339. Enable the
+The expiry value is encoded as an absolute UTC time using [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339). Enable the
 `tokencleaner` controller to automatically delete expired tokens.
 
 ## Token Management with kubeadm
@@ -174,9 +174,10 @@ The signature is a JWS signature using the "detached" mode. To validate the
 signature, the user should encode the `kubeconfig` payload according to JWS
 rules (base64 encoded while discarding any trailing `=`). That encoded payload
 is then used to form a whole JWS by inserting it between the 2 dots. You can
-verify the JWS using the `HS256` scheme (HMAC-SHA256) with the full token (e.g.
-`07401b.f395accd246ae52d`) as the shared secret. Users _must_ verify that HS256
-is used.
+verify the JWS using the `HS256` scheme (HMAC-SHA256) with the token secret part
+(e.g. `f395accd246ae52d`) as the shared secret. Users _must_ verify that HS256
+is used. You might have to pad the secret with zeroes to the right for some
+validation tools to accept it given it is only 16 bytes.
 
 {{< warning >}}
 Any party with a bootstrapping token can create a valid signature for that

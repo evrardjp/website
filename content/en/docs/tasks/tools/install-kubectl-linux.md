@@ -187,13 +187,13 @@ To upgrade kubectl to another minor release, you'll need to bump the version in 
    ```
 
 {{< note >}}
-To upgrade kubectl to another minor release, you'll need to bump the version in `/etc/yum.repos.d/kubernetes.repo` before running `yum update`. This procedure is described in more detail in [Changing The Kubernetes Package Repository](/docs/tasks/administer-cluster/kubeadm/change-package-repository/).
+To upgrade kubectl to another minor release, you'll need to bump the version in `/etc/yum.repos.d/kubernetes.repo` before running `dnf update`. This procedure is described in more detail in [Changing The Kubernetes Package Repository](/docs/tasks/administer-cluster/kubeadm/change-package-repository/).
 {{< /note >}}
 
-2. Install kubectl using `yum`:
+2. Install kubectl using `dnf`:
 
    ```bash
-   sudo yum install -y kubectl
+   sudo dnf install -y kubectl
    ```
 
 {{% /tab %}}
@@ -308,6 +308,10 @@ Below are the procedures to set up autocompletion for Bash, Fish, and Zsh.
 {{< tab name="Fish" include="included/optional-kubectl-configs-fish.md" />}}
 {{< tab name="Zsh" include="included/optional-kubectl-configs-zsh.md" />}}
 {{< /tabs >}}
+
+### Configure kuberc
+
+See [kuberc](/docs/reference/kubectl/kuberc) for more information.
 
 ### Install `kubectl convert` plugin
 

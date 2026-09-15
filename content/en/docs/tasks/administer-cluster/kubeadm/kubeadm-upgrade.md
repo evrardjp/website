@@ -3,7 +3,7 @@ reviewers:
 - sig-cluster-lifecycle
 title: Upgrading kubeadm clusters
 content_type: task
-weight: 40
+weight: 30
 ---
 
 <!-- overview -->
@@ -20,6 +20,10 @@ please refer to following pages instead:
 - [Upgrading a kubeadm cluster from {{< skew currentVersionAddMinor -3 >}} to {{< skew currentVersionAddMinor -2 >}}](https://v{{< skew currentVersionAddMinor -2 "-" >}}.docs.kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
 - [Upgrading a kubeadm cluster from {{< skew currentVersionAddMinor -4 >}} to {{< skew currentVersionAddMinor -3 >}}](https://v{{< skew currentVersionAddMinor -3 "-" >}}.docs.kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
 - [Upgrading a kubeadm cluster from {{< skew currentVersionAddMinor -5 >}} to {{< skew currentVersionAddMinor -4 >}}](https://v{{< skew currentVersionAddMinor -4 "-" >}}.docs.kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
+
+The Kubernetes project recommends upgrading to the latest patch releases promptly, and
+to ensure that you are running a supported minor release of Kubernetes.
+Following this recommendation helps you to stay secure.
 
 The upgrade workflow at high level is the following:
 
@@ -100,14 +104,23 @@ sudo apt-cache madison kubeadm
 {{% /tab %}}
 {{% tab name="CentOS, RHEL or Fedora" %}}
 
+For systems with DNF4 (Fedora < 41, RHEL/CentOS < 10):
 ```shell
 # Find the latest {{< skew currentVersion >}} version in the list.
 # It should look like {{< skew currentVersion >}}.x-*, where x is the latest patch.
-sudo yum list --showduplicates kubeadm --disableexcludes=kubernetes
+sudo dnf list --showduplicates kubeadm --disableexcludes=kubernetes
+```
+For systems with DNF5:
+```shell
+# Find the latest {{< skew currentVersion >}} version in the list.
+# It should look like {{< skew currentVersion >}}.x-*, where x is the latest patch.
+sudo dnf list --showduplicates kubeadm --setopt=disable_excludes=kubernetes
 ```
 
 {{% /tab %}}
 {{< /tabs >}}
+
+If you don't see the version you expect to upgrade to, [verify if the Kubernetes package repositories are used.](/docs/tasks/administer-cluster/kubeadm/change-package-repository/#verifying-if-the-kubernetes-package-repositories-are-used)
 
 ## Upgrading control plane nodes
 
@@ -133,9 +146,15 @@ Pick a control plane node that you wish to upgrade first. It must have the `/etc
    {{% /tab %}}
    {{% tab name="CentOS, RHEL or Fedora" %}}
 
+   For systems with DNF4 (Fedora < 41, RHEL/CentOS < 10):
    ```shell
    # replace x in {{< skew currentVersion >}}.x-* with the latest patch version
-   sudo yum install -y kubeadm-'{{< skew currentVersion >}}.x-*' --disableexcludes=kubernetes
+   sudo dnf install -y kubeadm-'{{< skew currentVersion >}}.x-*' --disableexcludes=kubernetes
+   ```
+   For systems with DNF5:
+   ```shell
+   # replace x in {{< skew currentVersion >}}.x-* with the latest patch version
+   sudo dnf install -y kubeadm-'{{< skew currentVersion >}}.x-*' --setopt=disable_excludes=kubernetes
    ```
 
    {{% /tab %}}
@@ -222,6 +241,13 @@ kubectl drain <node-to-drain> --ignore-daemonsets
 
 ### Upgrade kubelet and kubectl
 
+{{< note >}}
+On Linux nodes, the kubelet defaults to supporting only cgroups v2.
+For Kubernetes {{< skew currentVersion >}} the `FailCgroupV1` kubelet configuration option is set to `true` by default.
+
+To learn more, refer to the [Kubernetes cgroup v1 deprecation documentation](/docs/concepts/architecture/cgroups/#deprecation-of-cgroup-v1).
+{{</ note >}}
+
 1. Upgrade the kubelet and kubectl:
 
    {{< tabs name="k8s_install_kubelet" >}}
@@ -237,9 +263,15 @@ kubectl drain <node-to-drain> --ignore-daemonsets
    {{% /tab %}}
    {{% tab name="CentOS, RHEL or Fedora" %}}
 
+   For systems with DNF4 (Fedora < 41, RHEL/CentOS < 10):
    ```shell
    # replace x in {{< skew currentVersion >}}.x-* with the latest patch version
-   sudo yum install -y kubelet-'{{< skew currentVersion >}}.x-*' kubectl-'{{< skew currentVersion >}}.x-*' --disableexcludes=kubernetes
+   sudo dnf install -y kubelet-'{{< skew currentVersion >}}.x-*' kubectl-'{{< skew currentVersion >}}.x-*' --disableexcludes=kubernetes
+   ```
+   For systems with DNF5:   
+   ```shell
+   # replace x in {{< skew currentVersion >}}.x-* with the latest patch version
+   sudo dnf install -y kubelet-'{{< skew currentVersion >}}.x-*' kubectl-'{{< skew currentVersion >}}.x-*' --setopt=disable_excludes=kubernetes
    ```
 
    {{% /tab %}}

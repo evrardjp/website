@@ -30,7 +30,7 @@ Dockerの概念を使って説明すると、Podは共有の名前空間と共�
 
 以下は、`nginx:1.14.2`イメージが実行されるコンテナからなるPodの例を記載しています。
 
-{{% codenew file="pods/simple-pod.yaml" %}}
+{{% code_sample file="pods/simple-pod.yaml" %}}
 
 上記のようなPodを作成するには、以下のコマンドを実行します:
 ```shell
@@ -209,7 +209,7 @@ _Probe_ はkubeletがコンテナに対して行う定期診断です。診断�
 Kubernetesが共通のPod APIを他のリソース内(たとえば{{< glossary_tooltip text="StatefulSet" term_id="statefulset" >}}や{{< glossary_tooltip text="Deployment" term_id="deployment" >}}など)にラッピングしている理由の文脈を理解するためには、Kubernetes以前から存在する以下のような既存技術について読むのが助けになります。
 
   * [Aurora](https://aurora.apache.org/documentation/latest/reference/configuration/#job-schema)
-  * [Borg](https://research.google.com/pubs/pub43438.html)
-  * [Marathon](https://mesosphere.github.io/marathon/docs/rest-api.html)
+  * [Borg](https://research.google/pubs/large-scale-cluster-management-at-google-with-borg/)
+  * [Marathon](https://github.com/d2iq-archive/marathon)
   * [Omega](https://research.google/pubs/pub41684/)
   * [Tupperware](https://engineering.fb.com/data-center-engineering/tupperware/)

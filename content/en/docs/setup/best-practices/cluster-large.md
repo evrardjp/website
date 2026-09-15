@@ -113,6 +113,10 @@ many nodes, consider the following:
   the case with horizontally-scaled addons, you may also need to raise CPU or memory
   limits slightly.
 
+## Prioritizing cluster-essential components
+
+To ensure cluster-essential components (such as CoreDNS, metrics-server, and other critical add-ons) are scheduled ahead of other workloads and are not preempted by lower-priority pods, run them with a system [PriorityClass](/docs/concepts/scheduling-eviction/pod-priority-preemption/), such as `system-cluster-critical` or `system-node-critical`.
+
 ## {{% heading "whatsnext" %}}
 
 * `VerticalPodAutoscaler` is a custom resource that you can deploy into your cluster
@@ -121,7 +125,7 @@ Learn more about [Vertical Pod Autoscaler](https://github.com/kubernetes/autosca
 and how you can use it to scale cluster
 components, including cluster-critical addons.
 
-* Read about [cluster autoscaling](/docs/concepts/cluster-administration/cluster-autoscaling/)
+* Read about [Node autoscaling](/docs/concepts/cluster-administration/node-autoscaling/)
 
 * The [addon resizer](https://github.com/kubernetes/autoscaler/tree/master/addon-resizer#readme)
 helps you in resizing the addons automatically as your cluster's scale changes.
